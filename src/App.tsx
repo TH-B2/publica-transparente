@@ -2,8 +2,13 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import PAC from "./pages/PAC";
+import Contratacoes from "./pages/Contratacoes";
+import ExecucaoOrcamentaria from "./pages/ExecucaoOrcamentaria";
+import Transparencia from "./pages/Transparencia";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -15,8 +20,14 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="/" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/pac" element={<PAC />} />
+          <Route path="/contratacoes" element={<Contratacoes />} />
+          <Route path="/empenhos" element={<ExecucaoOrcamentaria />} />
+          <Route path="/liquidacoes" element={<ExecucaoOrcamentaria />} />
+          <Route path="/pagamentos" element={<ExecucaoOrcamentaria />} />
+          <Route path="/transparencia" element={<Transparencia />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
