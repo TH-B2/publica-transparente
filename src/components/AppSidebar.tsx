@@ -54,6 +54,17 @@ const navItems: NavItem[] = [
       { label: "Pagamentos", path: "/pagamentos" },
     ],
   },
+  {
+    label: "Gestão de Pessoal",
+    icon: Users,
+    children: [
+      { label: "Servidores", path: "/pessoal" },
+      { label: "Folha de Ponto", path: "/pessoal/ponto" },
+      { label: "Folha de Pagamento", path: "/pessoal/pagamento" },
+      { label: "Férias", path: "/pessoal/ferias" },
+      { label: "Licenças", path: "/pessoal/licencas" },
+    ],
+  },
   { label: "Fiscalização", icon: ClipboardCheck, path: "/fiscalizacao" },
   { label: "Transparência", icon: Eye, path: "/transparencia" },
   { label: "Relatórios", icon: BarChart3, path: "/relatorios" },
