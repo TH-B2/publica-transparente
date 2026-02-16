@@ -9,6 +9,7 @@ import PAC from "./pages/PAC";
 import Contratacoes from "./pages/Contratacoes";
 import ExecucaoOrcamentaria from "./pages/ExecucaoOrcamentaria";
 import Transparencia from "./pages/Transparencia";
+import GestaoPessoal from "./pages/GestaoPessoal";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,11 @@ const App = () => (
           <Route path="/liquidacoes" element={<ExecucaoOrcamentaria />} />
           <Route path="/pagamentos" element={<ExecucaoOrcamentaria />} />
           <Route path="/transparencia" element={<Transparencia />} />
+          <Route path="/pessoal" element={<GestaoPessoal />} />
+          <Route path="/pessoal/ponto" element={<GestaoPessoal />} />
+          <Route path="/pessoal/pagamento" element={<GestaoPessoal />} />
+          <Route path="/pessoal/ferias" element={<GestaoPessoal />} />
+          <Route path="/pessoal/licencas" element={<GestaoPessoal />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
