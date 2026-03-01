@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Building2, Search, FileText, DollarSign, ShoppingCart, Users, Download, ExternalLink } from "lucide-react";
+import { Building2, Search, FileText, DollarSign, ShoppingCart, Users, Download, ExternalLink, MessageSquare, Newspaper } from "lucide-react";
 
 const despesasRecentes = [
   { data: "12/02/2026", tipo: "Pagamento", favorecido: "Clean Services Ltda", objeto: "Serviços de limpeza", valor: "R$ 40.000,00" },
@@ -83,6 +83,54 @@ export default function Transparencia() {
               <p className="text-xs font-medium text-primary mt-1">{item.count}</p>
             </motion.div>
           ))}
+        </div>
+      </div>
+
+      {/* Public Portals */}
+      <div className="max-w-6xl mx-auto px-6 mt-6">
+        <h2 className="text-lg font-heading font-semibold text-foreground mb-3">Serviços ao Cidadão</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <Link to="/ouvidoria">
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="stat-card group flex items-start gap-4 hover:shadow-md transition-shadow"
+            >
+              <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
+                <MessageSquare className="w-5 h-5 text-primary" />
+              </div>
+              <div>
+                <p className="font-heading font-semibold text-foreground text-sm">Ouvidoria</p>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  Registre denúncias, sugestões, elogios e reclamações. Acompanhe o andamento pelo número do protocolo.
+                </p>
+                <span className="text-xs font-medium text-primary mt-1.5 inline-flex items-center gap-1">
+                  Acessar portal <ExternalLink className="w-3 h-3" />
+                </span>
+              </div>
+            </motion.div>
+          </Link>
+          <Link to="/diario-oficial">
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.05 }}
+              className="stat-card group flex items-start gap-4 hover:shadow-md transition-shadow"
+            >
+              <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
+                <Newspaper className="w-5 h-5 text-primary" />
+              </div>
+              <div>
+                <p className="font-heading font-semibold text-foreground text-sm">Diário Oficial</p>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  Consulte decretos, portarias, leis e demais atos administrativos publicados pelo município.
+                </p>
+                <span className="text-xs font-medium text-primary mt-1.5 inline-flex items-center gap-1">
+                  Acessar portal <ExternalLink className="w-3 h-3" />
+                </span>
+              </div>
+            </motion.div>
+          </Link>
         </div>
       </div>
 

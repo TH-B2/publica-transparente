@@ -83,6 +83,7 @@ const navItems: NavItem[] = [
     ],
   },
   { label: "Transparência", icon: Eye, path: "/transparencia" },
+  { label: "Auditoria e Controle", icon: ClipboardCheck, path: "/auditoria" },
   { label: "Relatórios", icon: BarChart3, path: "/relatorios" },
   { label: "Usuários", icon: Users, path: "/usuarios" },
   { label: "Configurações", icon: Settings, path: "/configuracoes" },
