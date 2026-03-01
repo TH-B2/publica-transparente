@@ -66,6 +66,22 @@ const navItems: NavItem[] = [
     ],
   },
   { label: "Fiscalização", icon: ClipboardCheck, path: "/fiscalizacao" },
+  {
+    label: "Ouvidoria",
+    icon: Bell,
+    children: [
+      { label: "Gestão de Manifestações", path: "/ouvidoria/interna" },
+      { label: "Portal Público", path: "/ouvidoria" },
+    ],
+  },
+  {
+    label: "Diário Oficial",
+    icon: FileText,
+    children: [
+      { label: "Gestão de Publicações", path: "/diario-oficial/interno" },
+      { label: "Portal Público", path: "/diario-oficial" },
+    ],
+  },
   { label: "Transparência", icon: Eye, path: "/transparencia" },
   { label: "Relatórios", icon: BarChart3, path: "/relatorios" },
   { label: "Usuários", icon: Users, path: "/usuarios" },
