@@ -21,6 +21,7 @@ import Ouvidoria from "./pages/Ouvidoria";
 import OuvidoriaInterna from "./pages/OuvidoriaInterna";
 import DiarioOficial from "./pages/DiarioOficial";
 import DiarioOficialInterno from "./pages/DiarioOficialInterno";
+import AuditoriaControle from "./pages/AuditoriaControle";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -56,6 +57,7 @@ const App = () => (
           <Route path="/ouvidoria/interna" element={<OuvidoriaInterna />} />
           <Route path="/diario-oficial" element={<DiarioOficial />} />
           <Route path="/diario-oficial/interno" element={<DiarioOficialInterno />} />
+          <Route path="/auditoria" element={<AuditoriaControle />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
