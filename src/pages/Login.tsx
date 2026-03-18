@@ -2,16 +2,32 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Building2, Eye, EyeOff } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "sonner";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { signIn } = useAuth();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    navigate("/dashboard");
+    if (!email || !password) {
+      toast.error("Preencha e-mail e senha");
+      return;
+    }
+    setLoading(true);
+    const { error } = await signIn(email, password);
+    setLoading(false);
+
+    if (error) {
+      toast.error("Credenciais inválidas. Verifique e-mail e senha.");
+    } else {
+      navigate("/dashboard");
+    }
   };
 
   return (
@@ -33,24 +49,24 @@ export default function Login() {
             <Building2 className="w-8 h-8 text-accent-foreground" />
           </div>
           <h2 className="text-3xl font-heading font-bold mb-4">
-            Sistema de Gestão de Despesas Públicas
+            Plataforma SaaS de Gestão Pública
           </h2>
           <p className="text-primary-foreground/70 text-lg leading-relaxed">
             Controle, transparência e conformidade na execução orçamentária municipal.
-            Em conformidade com a Lei 14.133/2021, LRF e Lei 4.320/64.
+            Multi-tenant, com IA integrada e em conformidade com a Lei 14.133/2021, LRF e PCASP.
           </p>
           <div className="mt-10 grid grid-cols-3 gap-4 text-center">
             <div className="bg-primary-foreground/10 rounded-xl p-4">
-              <p className="text-2xl font-bold">194</p>
-              <p className="text-xs text-primary-foreground/60 mt-1">Itens no PAC</p>
+              <p className="text-2xl font-bold">SaaS</p>
+              <p className="text-xs text-primary-foreground/60 mt-1">Multi-tenant</p>
             </div>
             <div className="bg-primary-foreground/10 rounded-xl p-4">
-              <p className="text-2xl font-bold">47</p>
-              <p className="text-xs text-primary-foreground/60 mt-1">Contratos</p>
+              <p className="text-2xl font-bold">IA</p>
+              <p className="text-xs text-primary-foreground/60 mt-1">Alertas n8n</p>
             </div>
             <div className="bg-primary-foreground/10 rounded-xl p-4">
-              <p className="text-2xl font-bold">R$ 12M</p>
-              <p className="text-xs text-primary-foreground/60 mt-1">Executado</p>
+              <p className="text-2xl font-bold">PCASP</p>
+              <p className="text-xs text-primary-foreground/60 mt-1">Completo</p>
             </div>
           </div>
         </motion.div>
@@ -124,9 +140,10 @@ export default function Login() {
 
             <button
               type="submit"
-              className="w-full py-2.5 bg-primary text-primary-foreground rounded-lg font-medium hover:opacity-90 transition-opacity"
+              disabled={loading}
+              className="w-full py-2.5 bg-primary text-primary-foreground rounded-lg font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
             >
-              Entrar
+              {loading ? "Entrando..." : "Entrar"}
             </button>
           </form>
 
@@ -137,9 +154,15 @@ export default function Login() {
             </a>
           </p>
 
-          <div className="mt-10 pt-6 border-t border-border text-center">
-            <Link to="/transparencia" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+          <div className="mt-10 pt-6 border-t border-border text-center space-y-2">
+            <Link to="/transparencia" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
               🔍 Acessar Portal da Transparência
+            </Link>
+            <Link to="/ouvidoria" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+              📢 Ouvidoria Pública
+            </Link>
+            <Link to="/diario-oficial" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+              📰 Diário Oficial
             </Link>
           </div>
         </motion.div>

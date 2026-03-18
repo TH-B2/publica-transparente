@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   LayoutDashboard,
   FileText,
@@ -17,6 +18,8 @@ import {
   X,
   LogOut,
   Bell,
+  Calculator,
+  ShieldAlert,
 } from "lucide-react";
 
 interface NavItem {
@@ -24,6 +27,7 @@ interface NavItem {
   icon: React.ElementType;
   path?: string;
   children?: { label: string; path: string }[];
+  roles?: string[];
 }
 
 const navItems: NavItem[] = [
@@ -44,6 +48,11 @@ const navItems: NavItem[] = [
       { label: "Nova Contratação", path: "/contratacoes/nova" },
       { label: "Fornecedores", path: "/fornecedores" },
     ],
+  },
+  {
+    label: "Contabilidade",
+    icon: Calculator,
+    path: "/contabilidade",
   },
   {
     label: "Execução Orçamentária",
@@ -83,14 +92,17 @@ const navItems: NavItem[] = [
     ],
   },
   { label: "Transparência", icon: Eye, path: "/transparencia" },
-  { label: "Auditoria e Controle", icon: ClipboardCheck, path: "/auditoria" },
+  { label: "Auditoria e Controle", icon: ClipboardCheck, path: "/auditoria", roles: ["auditor", "admin"] },
+  { label: "Alertas IA", icon: ShieldAlert, path: "/alertas", roles: ["auditor", "admin"] },
   { label: "Relatórios", icon: BarChart3, path: "/relatorios" },
-  { label: "Usuários", icon: Users, path: "/usuarios" },
-  { label: "Configurações", icon: Settings, path: "/configuracoes" },
+  { label: "Usuários", icon: Users, path: "/usuarios", roles: ["admin"] },
+  { label: "Configurações", icon: Settings, path: "/configuracoes", roles: ["admin"] },
 ];
 
 export default function AppSidebar() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { profile, tenant, roles, signOut } = useAuth();
   const [expandedItems, setExpandedItems] = useState<string[]>(["Contratações", "Execução Orçamentária"]);
   const [collapsed, setCollapsed] = useState(false);
 
@@ -104,6 +116,17 @@ export default function AppSidebar() {
   const isGroupActive = (item: NavItem) =>
     item.children?.some((c) => location.pathname.startsWith(c.path));
 
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/");
+  };
+
+  // Filter nav items by role
+  const visibleItems = navItems.filter((item) => {
+    if (!item.roles) return true;
+    return item.roles.some((r) => roles.includes(r));
+  });
+
   return (
     <aside
       className={`fixed left-0 top-0 h-screen bg-sidebar flex flex-col z-40 transition-all duration-300 ${
@@ -116,11 +139,13 @@ export default function AppSidebar() {
           <Building2 className="w-5 h-5 text-sidebar-primary-foreground" />
         </div>
         {!collapsed && (
-          <div className="animate-fade-in">
-            <h1 className="text-sm font-bold text-sidebar-foreground leading-tight">
-              GestãoPública
+          <div className="animate-fade-in overflow-hidden">
+            <h1 className="text-sm font-bold text-sidebar-foreground leading-tight truncate">
+              {tenant?.nome || "GestãoPública"}
             </h1>
-            <p className="text-[11px] text-sidebar-muted">Controle de Despesas</p>
+            <p className="text-[11px] text-sidebar-muted truncate">
+              {tenant?.municipio ? `${tenant.municipio}/${tenant.uf}` : "Controle de Despesas"}
+            </p>
           </div>
         )}
         <button
@@ -133,7 +158,7 @@ export default function AppSidebar() {
 
       {/* Navigation */}
       <nav className="flex-1 overflow-y-auto py-3 px-2.5 space-y-0.5">
-        {navItems.map((item) => {
+        {visibleItems.map((item) => {
           const Icon = item.icon;
 
           if (item.children) {
@@ -200,9 +225,15 @@ export default function AppSidebar() {
         })}
       </nav>
 
-      {/* Footer */}
-      <div className="px-2.5 py-3 border-t border-sidebar-border">
-        <button className="sidebar-link sidebar-link-inactive w-full" title="Sair">
+      {/* User info + Footer */}
+      <div className="px-2.5 py-3 border-t border-sidebar-border space-y-2">
+        {!collapsed && profile && (
+          <div className="px-3 py-2 text-xs text-sidebar-muted">
+            <p className="text-sidebar-foreground font-medium truncate">{profile.nome_completo}</p>
+            <p className="truncate">{profile.cargo || roles[0] || "Usuário"}</p>
+          </div>
+        )}
+        <button onClick={handleSignOut} className="sidebar-link sidebar-link-inactive w-full" title="Sair">
           <LogOut className="w-[18px] h-[18px] flex-shrink-0" />
           {!collapsed && <span>Sair</span>}
         </button>
